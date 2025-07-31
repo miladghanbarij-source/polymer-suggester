@@ -18,6 +18,7 @@ export default async function handler(request, response) {
       return response.status(500).json({ message: 'API Key is not configured on the server.' });
   }
 
+  // The prompt is updated to generate search links instead of direct product links to prevent 404 errors.
   const prompt = `
       به عنوان یک متخصص و مهندس علم مواد با دسترسی به اطلاعات قیمت‌گذاری روز، برای قطعه ی "${partName}" دو پیشنهاد ماده پلیمری ارائه بده.
       پاسخ را به زبان فارسی و با فرمت HTML ارائه بده. ساختار پاسخ باید دقیقاً به شکل زیر باشد و از تگ‌های HTML مشخص شده استفاده کن:
@@ -42,9 +43,21 @@ export default async function handler(request, response) {
           <h3>۳. معایب احتمالی</h3>
           <p>[به صورت خلاصه به یک یا دو مورد از نقاط ضعف ماده هم اشاره کن.]</p>
       </div>
+
+      ---
+      
+      بعد از ارائه دو پیشنهاد بالا، یک بخش جدید با فرمت HTML زیر اضافه کن. در این بخش، بر اساس نام مواد پیشنهادی (مثلا پلی پروپیلن)، لینک جستجو برای یافتن آن محصولات در سایت partplast.com ایجاد کن. لینک‌ها باید دقیقا به صفحه جستجوی سایت با فرمت "https://partplast.com/shop/?s=[نام ماده]" باشند.
+
+      <div class="related-products mt-8 pt-6 border-t-2 border-gray-200">
+          <h3 class="text-xl font-bold text-indigo-800 mb-4">جستجوی محصولات در پارت پلاست</h3>
+          <p class="text-gray-600 mb-4">برای یافتن گریدهای موجود از مواد پیشنهادی در فروشگاه، روی لینک‌های زیر کلیک کنید:</p>
+          <ul class="list-disc list-inside space-y-2">
+              <li><a href="https://partplast.com/shop/?s=[نام ماده اول]" target="_blank" class="text-green-700 hover:underline">جستجوی محصولات <strong>[نام ماده اول]</strong> در فروشگاه</a></li>
+              <li><a href="https://partplast.com/shop/?s=[نام ماده دوم]" target="_blank" class="text-green-700 hover:underline">جستجوی محصولات <strong>[نام ماده دوم]</strong> در فروشگاه</a></li>
+          </ul>
+      </div>
   `;
 
-  // The model name is corrected here to match your original working code.
   const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
 
   const payload = {
