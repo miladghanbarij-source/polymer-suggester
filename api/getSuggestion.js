@@ -18,7 +18,6 @@ export default async function handler(request, response) {
       return response.status(500).json({ message: 'API Key is not configured on the server.' });
   }
 
-  // The prompt is updated to request related products at the end.
   const prompt = `
       به عنوان یک متخصص و مهندس علم مواد با دسترسی به اطلاعات قیمت‌گذاری روز، برای قطعه ی "${partName}" دو پیشنهاد ماده پلیمری ارائه بده.
       پاسخ را به زبان فارسی و با فرمت HTML ارائه بده. ساختار پاسخ باید دقیقاً به شکل زیر باشد و از تگ‌های HTML مشخص شده استفاده کن:
@@ -43,24 +42,9 @@ export default async function handler(request, response) {
           <h3>۳. معایب احتمالی</h3>
           <p>[به صورت خلاصه به یک یا دو مورد از نقاط ضعف ماده هم اشاره کن.]</p>
       </div>
-
-      ---
-      
-      بعد از ارائه دو پیشنهاد بالا، یک بخش جدید با فرمت HTML زیر اضافه کن. در این بخش، بر اساس مواد پیشنهادی (مثلا اگر پلی پروپیلن پیشنهاد دادی)، 5 محصول مرتبط واقعی یا بسیار محتمل از سایت partplast.com را لیست کن. لینک‌ها باید به آدرس partplast.com باشند.
-
-      <div class="related-products mt-8 pt-6 border-t-2 border-gray-200">
-          <h3 class="text-xl font-bold text-indigo-800 mb-4">محصولات مرتبط از پارت پلاست</h3>
-          <p class="text-gray-600 mb-4">بر اساس مواد پیشنهادی، ممکن است به این محصولات علاقه‌مند باشید:</p>
-          <ul class="list-disc list-inside space-y-2">
-              <li><a href="https://partplast.com/product/[product-link-1]" target="_blank" class="text-green-700 hover:underline">[نام محصول مرتبط ۱]</a></li>
-              <li><a href="https://partplast.com/product/[product-link-2]" target="_blank" class="text-green-700 hover:underline">[نام محصول مرتبط ۲]</a></li>
-              <li><a href="https://partplast.com/product/[product-link-3]" target="_blank" class="text-green-700 hover:underline">[نام محصول مرتبط ۳]</a></li>
-              <li><a href="https://partplast.com/product/[product-link-4]" target="_blank" class="text-green-700 hover:underline">[نام محصول مرتبط ۴]</a></li>
-              <li><a href="https://partplast.com/product/[product-link-5]" target="_blank" class="text-green-700 hover:underline">[نام محصول مرتبط ۵]</a></li>
-          </ul>
-      </div>
   `;
 
+  // The model name is corrected here to match your original working code.
   const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
 
   const payload = {
