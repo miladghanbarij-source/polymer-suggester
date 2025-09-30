@@ -5,11 +5,7 @@ export default async function handler(request, response) {
     return response.status(405).json({ message: 'Method Not Allowed' });
   }
 
-  const { partName } = request.body;
-
-  if (!partName) {
-    return response.status(400).json({ message: 'Missing partName in request' });
-  }
+  const partName = "تست";
 
   const apiKey = process.env.GEMINI_API_KEY;
 
